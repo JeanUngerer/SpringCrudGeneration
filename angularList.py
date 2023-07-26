@@ -1,15 +1,15 @@
-def generate_angular_component(equipment_entity_file):
-    with open(equipment_entity_file, 'r') as file:
-        entity_code = file.read()
 
-    class_name = get_class_name(entity_code)
-    interface_name = class_name + "DTO"
+
+import os
+def generate_angular_component(class_name, entity_code):
+
+    interface_name = class_name
 
     component_code = generate_component_code(class_name, interface_name)
     template_code = generate_template_code(class_name)
     stylesheet_code = generate_stylesheet_code()
 
-    write_to_file(component_code, class_name)
+    write_to_file(component_code, f"{class_name}.component.ts")
     write_to_file(template_code, f"{class_name.lower()}.component.html")
     write_to_file(stylesheet_code, f"{class_name.lower()}.component.scss")
 
@@ -22,8 +22,8 @@ def get_class_name(entity_code):
 def generate_component_code(class_name, interface_name):
     component_code = f"import {{ Component, OnInit }} from '@angular/core';\n"
     component_code += f"import {{ Router }} from '@angular/router';\n"
-    component_code += f"import {{ {class_name}Service }} from './{class_name}Service';\n"
-    component_code += f"import {{ {interface_name} }} from './{interface_name}';\n\n"
+    component_code += f"import {{ {class_name}Service }} from './../../aServiceOutput/{class_name}.service';\n"
+    component_code += f"import {{ {interface_name} }} from './../../aModelOutput/{interface_name}.model';\n\n"
 
     component_code += "@Component({\n"
     component_code += f"\tselector: '{class_name.lower()}-list',\n"
@@ -42,7 +42,7 @@ def generate_component_code(class_name, interface_name):
     component_code += f"\tget{class_name}List() {{\n"
     component_code += f"\t\tthis.{class_name.lower()}Service.getAll{class_name}().subscribe(data => {{\n"
     component_code += f"\t\t\tthis.{class_name.lower()}List = data;\n"
-    component_code += "\t\t}});\n"
+    component_code += "\t\t});\n"
     component_code += "\t}\n\n"
 
     component_code += f"\tonRowClick(id: number) {{\n"
@@ -91,10 +91,19 @@ def generate_stylesheet_code():
     return stylesheet_code
 
 def write_to_file(content, file_name):
-    with open(file_name, 'w') as file:
+    path = "./aListComponentOutput" + "/" + file_name.split(".")[0]
+
+    output_file = path + "/" + file_name
+
+
+    # Check whether the specified path exists or not
+
+    if not os.path.exists(path):
+        # Create a new directory because it does not exist
+        os.makedirs(path)
+    with open(output_file, 'w') as file:
         file.write(content)
-    print(f"File '{file_name}' generated successfully!")
 
 # Provide the path to the EquipmentEntity class file
-equipment_entity_file = "EquipmentEntity.java"
-generate_angular_component(equipment_entity_file)
+# equipment_entity_file = "EquipmentEntity.java"
+# generate_angular_component(equipment_entity_file)
