@@ -1,13 +1,12 @@
 import re
+import os
 
-def generate_typescript_interface(equipment_entity_file):
-    with open(equipment_entity_file, 'r') as file:
-        entity_code = file.read()
+def generate_typescript_interface(interface_name, primitive_properties, non_primitive_properties):
 
-    interface_name = get_interface_name(entity_code)
-    interface_properties = get_interface_properties(entity_code)
-
-    interface_model = generate_interface_model(interface_name, interface_properties)
+    interface_properties = primitive_properties
+    if len(non_primitive_properties) != 0:
+        interface_properties += non_primitive_properties
+    interface_model = generate_interface_model(interface_name, interface_properties, non_primitive_properties)
     write_to_file(interface_model, interface_name)
 
 def get_interface_name(entity_code):
@@ -21,10 +20,6 @@ def get_interface_properties(entity_code):
     properties = re.findall(r"@Column\(.+\)\s+(\w+)\s+(\w+);", entity_code)
     properties += re.findall(r"@JoinColumn\(.+\)\s+(\w+)\s+(\w+);", entity_code)
     properties += re.findall(r"@JoinColumn\(.+\)\s+(\w+<[^>]+>)\s+(\w+);", entity_code)
-    print(properties)
-
-    data = [('Long', 'id'), ('String', 'name'), ('String', 'type'), ('String', 'effects'),
-            ('List<SpecialRuleEntity>', 'specialRules')]
 
     replacements = {
         'Long': 'number',
@@ -47,23 +42,36 @@ def get_interface_properties(entity_code):
 
         properties[i] = (properties_type, var_name)
 
-    print(properties)
 
     return properties
 
-def generate_interface_model(interface_name, interface_properties):
-    interface_model = f"export interface {interface_name} {{\n"
+def generate_interface_model(interface_name, interface_properties, non_primitive_properties):
+    interface_model = f''
+    for prop_type, prop_name in non_primitive_properties:
+        prop_type = prop_type.translate({ord(i): None for i in '[]'})
+        print(prop_type)
+        interface_model += "import {" + f"{prop_type}" + "}" + f" from './{prop_type}.model';\n"
+    interface_model += f"\n"
+    interface_model += f"export interface {interface_name} {{\n"
+
     for prop_type, prop_name in interface_properties:
         interface_model += f"\t{prop_name}: {prop_type};\n"
     interface_model += "}\n"
     return interface_model
 
 def write_to_file(interface_model, interface_name):
-    output_file = interface_name + ".ts"
+    output_file = "./aModeloutput/" + interface_name + ".model.ts"
+
+    path = "./aModeloutput"
+    # Check whether the specified path exists or not
+
+    if not os.path.exists(path):
+        # Create a new directory because it does not exist
+        os.makedirs(path)
+
     with open(output_file, 'w') as file:
         file.write(interface_model)
-    print(f"TypeScript interface file '{output_file}' generated successfully!")
 
 # Provide the path to the EquipmentEntity class file
-equipment_entity_file = "tests/EquipmentEntity.java"
-generate_typescript_interface(equipment_entity_file)
+## equipment_entity_file = "tests/EquipmentEntity.java"
+## generate_typescript_interface(equipment_entity_file)

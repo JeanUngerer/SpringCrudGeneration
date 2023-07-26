@@ -1,12 +1,12 @@
-def generate_angular_service(equipment_entity_file):
-    with open(equipment_entity_file, 'r') as file:
-        entity_code = file.read()
+import os
+
+def generate_angular_service(interface_name, entity_code):
 
     class_name = get_class_name(entity_code)
-    interface_name = class_name + "DTO"
 
-    service_code = generate_service_code(class_name, interface_name)
-    write_to_file(service_code, class_name)
+
+    service_code = generate_service_code(interface_name, interface_name)
+    write_to_file(service_code, interface_name)
 
 def get_class_name(entity_code):
     class_start_index = entity_code.index("class") + len("class")
@@ -15,7 +15,7 @@ def get_class_name(entity_code):
     return class_name
 
 def generate_service_code(class_name, interface_name):
-    service_code = f"import {interface_name} from './{interface_name}';\n"
+    service_code = "import {" f"{interface_name}" + "}" + f" from './../aModelOutput/{interface_name}.model';\n"
     service_code += "import { Injectable } from '@angular/core';\n"
     service_code += "import { HttpClient } from '@angular/common/http';\n"
     service_code += "import { Observable } from 'rxjs';\n\n"
@@ -52,11 +52,20 @@ def generate_service_code(class_name, interface_name):
     return service_code
 
 def write_to_file(service_code, class_name):
-    output_file = class_name + "Service.ts"
+
+
+    output_file = "./aServiceOutput/" + class_name + ".service.ts"
+
+    path = "./aServiceOutput"
+    # Check whether the specified path exists or not
+
+    if not os.path.exists(path):
+        # Create a new directory because it does not exist
+        os.makedirs(path)
     with open(output_file, 'w') as file:
         file.write(service_code)
-    print(f"Angular service file '{output_file}' generated successfully!")
+
 
 # Provide the path to the EquipmentEntity class file
-equipment_entity_file = "tests/EquipmentEntity.java"
-generate_angular_service(equipment_entity_file)
+#equipment_entity_file = "tests/EquipmentEntity.java"
+#generate_angular_service(equipment_entity_file)
