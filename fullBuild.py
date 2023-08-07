@@ -3,6 +3,9 @@ import os
 import angularModel as aModel
 import angularService as aService
 import angularList as aList
+import angularModule as aModule
+import angularRoutingModule as aRoutingModule
+import angularAddToModules as aAddToModules
 
 
 class ClassInfo:
@@ -47,4 +50,12 @@ for root, dirs, files in os.walk(entityDirectory):
 for infos in listOfEntities:
     aModel.generate_typescript_interface(infos.name, infos.primitiveAttributes, infos.nonPrimitiveAttributes)
     aService.generate_angular_service(infos.name, infos.entity_code)
+
+    components = [infos.name + "ListComponent", infos.name + "DetailComponent", infos.name + "CreateComponent"]
+    aModule.create_angular_module(infos.name, components)
+
+    aRoutingModule.create_routing_module(infos.name, components)
+    aAddToModules.add_component_to_app_routing_module(infos.name)
+    aAddToModules.add_module_to_app_module(infos.name)
+
     aList.generate_angular_component(infos.name, infos.entity_code)

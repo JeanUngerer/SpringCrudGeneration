@@ -9,9 +9,9 @@ def generate_angular_component(class_name, entity_code):
     template_code = generate_template_code(class_name)
     stylesheet_code = generate_stylesheet_code()
 
-    write_to_file(component_code, f"{class_name}.component.ts")
-    write_to_file(template_code, f"{class_name.lower()}.component.html")
-    write_to_file(stylesheet_code, f"{class_name.lower()}.component.scss")
+    write_to_file(component_code, f"{class_name}list.component.ts", class_name.lower())
+    write_to_file(template_code, f"{class_name.lower()}list.component.html", class_name.lower())
+    write_to_file(stylesheet_code, f"{class_name.lower()}list.component.scss", class_name.lower())
 
 def get_class_name(entity_code):
     class_start_index = entity_code.index("class") + len("class")
@@ -22,13 +22,13 @@ def get_class_name(entity_code):
 def generate_component_code(class_name, interface_name):
     component_code = f"import {{ Component, OnInit }} from '@angular/core';\n"
     component_code += f"import {{ Router }} from '@angular/router';\n"
-    component_code += f"import {{ {class_name}Service }} from './../../aServiceOutput/{class_name}.service';\n"
-    component_code += f"import {{ {interface_name} }} from './../../aModelOutput/{interface_name}.model';\n\n"
+    component_code += f"import {{ {class_name}Service }} from './../../../services/{class_name}.service';\n"
+    component_code += f"import {{ {interface_name} }} from './../../../models/{interface_name}.model';\n\n"
 
     component_code += "@Component({\n"
     component_code += f"\tselector: '{class_name.lower()}-list',\n"
-    component_code += f"\ttemplateUrl: '{class_name.lower()}.component.html',\n"
-    component_code += f"\tstyleUrls: ['{class_name.lower()}.component.scss']\n"
+    component_code += f"\ttemplateUrl: '{class_name.lower()}list.component.html',\n"
+    component_code += f"\tstyleUrls: ['{class_name.lower()}list.component.scss']\n"
     component_code += "})\n"
     component_code += f"export class {class_name}ListComponent implements OnInit {{\n"
     component_code += f"\t{class_name.lower()}List: {interface_name}[];\n\n"
@@ -41,7 +41,7 @@ def generate_component_code(class_name, interface_name):
 
     component_code += f"\tget{class_name}List() {{\n"
     component_code += f"\t\tthis.{class_name.lower()}Service.getAll{class_name}().subscribe(data => {{\n"
-    component_code += f"\t\t\tthis.{class_name.lower()}List = data;\n"
+    component_code += f"\t\t\tthis.{class_name.lower()}List = data as {interface_name}[];\n"
     component_code += "\t\t});\n"
     component_code += "\t}\n\n"
 
@@ -90,8 +90,8 @@ def generate_stylesheet_code():
 
     return stylesheet_code
 
-def write_to_file(content, file_name):
-    path = "./aListComponentOutput" + "/" + file_name.split(".")[0]
+def write_to_file(content, file_name, moduleName):
+    path = "./angularTestUI/src/app/test/modules/" + moduleName + "/" + file_name.split(".")[0].lower()
 
     output_file = path + "/" + file_name
 

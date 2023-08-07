@@ -15,7 +15,7 @@ def get_class_name(entity_code):
     return class_name
 
 def generate_service_code(class_name, interface_name):
-    service_code = "import {" f"{interface_name}" + "}" + f" from './../aModelOutput/{interface_name}.model';\n"
+    service_code = "import {" f"{interface_name}" + "}" + f" from './../models/{interface_name}.model';\n"
     service_code += "import { Injectable } from '@angular/core';\n"
     service_code += "import { HttpClient } from '@angular/common/http';\n"
     service_code += "import { Observable } from 'rxjs';\n\n"
@@ -53,10 +53,10 @@ def generate_service_code(class_name, interface_name):
 
 def write_to_file(service_code, class_name):
 
+    path = "./angularTestUI/src/app/test/services"
+    output_file = path + "/" + class_name + ".service.ts"
 
-    output_file = "./aServiceOutput/" + class_name + ".service.ts"
 
-    path = "./aServiceOutput"
     # Check whether the specified path exists or not
 
     if not os.path.exists(path):

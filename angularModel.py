@@ -60,9 +60,11 @@ def generate_interface_model(interface_name, interface_properties, non_primitive
     return interface_model
 
 def write_to_file(interface_model, interface_name):
-    output_file = "./aModeloutput/" + interface_name + ".model.ts"
+    path = "./angularTestUI/src/app/test/models"
 
-    path = "./aModeloutput"
+    output_file = path + "/" + interface_name  + ".model.ts"
+
+
     # Check whether the specified path exists or not
 
     if not os.path.exists(path):
