@@ -42,4 +42,4 @@ def write_to_file(class_code, class_name):
 
 # Provide the path to the EquipmentEntity class file
 equipment_entity_file = "EquipmentEntity.java"
-generate_equipment_mapper_class(equipment_entity_file)
+#generate_equipment_mapper_class(equipment_entity_file)

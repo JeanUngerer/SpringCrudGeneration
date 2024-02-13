@@ -6,6 +6,13 @@ import angularList as aList
 import angularModule as aModule
 import angularRoutingModule as aRoutingModule
 import angularAddToModules as aAddToModules
+import javaService as jService
+import javaMapper as jMapper
+import javaDTO as jDTO
+import javaModel as jModel
+import javaController as jController
+import javaRepository as jRepository
+
 
 
 class ClassInfo:
@@ -57,5 +64,16 @@ for infos in listOfEntities:
     aRoutingModule.create_routing_module(infos.name, components)
     aAddToModules.add_component_to_app_routing_module(infos.name)
     aAddToModules.add_module_to_app_module(infos.name)
+
+    path = 'tests/' + infos.name + 'Entity.java'
+    jService.generate_equipment_service_class(path)
+
+    jMapper.generate_equipment_mapper_class(path)
+    jDTO.generate_equipment_dto_class(path)
+    jModel.generate_equipment_class(path)
+    jController.generate_equipment_controller_class(path)
+    jRepository.generate_equipment_repository_class(path)
+
+
 
     aList.generate_angular_component(infos.name, infos.entity_code)

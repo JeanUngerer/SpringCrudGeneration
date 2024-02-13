@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
-import {MatTableModule} from "@angular/material/table";
-import {AllBooksRoutingModule} from "./allbooks-routing.module";
-import {AllBooksListComponent} from "./allbookslist/AllBookslist.component";
-
+import {MatTableModule} from '@angular/material/table';
+import { AllBooksListComponent } from './allbookslist/allbookslist.component';
+import { AllBooksDetailComponent } from './allbooksdetail/allbooksdetail.component';
+import { AllBooksCreateComponent } from './allbookscreate/allbookscreate.component';
+import AllBooksRoutingModule from './allbooks-routing.module';
 @NgModule({
 	declarations: [
-    AllBooksListComponent
+		AllBooksListComponent,
+		AllBooksDetailComponent,
+		AllBooksCreateComponent,
 	],
-  imports : [
-    MatTableModule,
-    AllBooksRoutingModule
-  ],
+	imports: [
+MatTableModule,AllBooksRoutingModule,	]
 	exports: [
 	]
 })

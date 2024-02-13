@@ -9,7 +9,7 @@ import { AllBooks } from './../../../models/AllBooks.model';
 	styleUrls: ['allbookslist.component.scss']
 })
 export class AllBooksListComponent implements OnInit {
-	allbooksList: AllBooks[] = [];
+	allbooksList: AllBooks[];
 
 	constructor(private allbooksService: AllBooksService, private router: Router) { }
 

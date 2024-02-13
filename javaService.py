@@ -120,5 +120,5 @@ def write_to_file(class_code, class_name):
     print(f"Java file '{output_file}' generated successfully!")
 
 # Provide the path to the EquipmentEntity class file
-equipment_entity_file = "notInTests/EquipmentEntity.java"
-generate_equipment_service_class(equipment_entity_file)
+equipment_entity_file = "tests/UserEntity.java"
+#generate_equipment_service_class(equipment_entity_file)

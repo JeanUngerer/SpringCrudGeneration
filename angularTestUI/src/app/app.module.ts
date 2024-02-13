@@ -6,6 +6,17 @@ import {TopNavComponent} from "./components/layout/top-nav/top-nav.component";
 import { AppRoutingModule } from './app-routing.module';
 import { AllBooksModule } from './test/modules/allbooks/allbooks.module';
 import { HomeComponent } from './components/layout/home/home.component';
+import { AllBooksModule } from './test/modules/allbooks/allbooks.module';
+import { AllBooksModule } from './test/modules/allbooks/allbooks.module';
+import { AllBooksModule } from './test/modules/allbooks/allbooks.module';
+import { AllBooksModule } from './test/modules/allbooks/allbooks.module';
+import { MessageModule } from './test/modules/message/message.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { UserModule } from './test/modules/user/user.module';
+import { AllBooksModule } from './test/modules/allbooks/allbooks.module';
+import { MessageModule } from './test/modules/message/message.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { UserModule } from './test/modules/user/user.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +25,17 @@ import { HomeComponent } from './components/layout/home/home.component';
     HomeComponent,
   ],
   imports: [
+		UserModule,
+		RentalModule,
+		MessageModule,
+		AllBooksModule,
+		UserModule,
+		RentalModule,
+		MessageModule,
+		AllBooksModule,
+		AllBooksModule,
+		AllBooksModule,
+		AllBooksModule,
     AllBooksModule,
     BrowserModule,
     AppRoutingModule,
