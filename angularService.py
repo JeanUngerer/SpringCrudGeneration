@@ -37,11 +37,11 @@ def generate_service_code(class_name, interface_name):
     service_code += "\t}\n\n"
 
     service_code += f"\tcreate{class_name}({class_name.lower()}: {interface_name}): Observable<{interface_name}> {{\n"
-    service_code += f"\t\treturn this.http.put<{interface_name}>" + "(`${this.baseUrl}" + f"/create`, {class_name.lower()});\n"
+    service_code += f"\t\treturn this.http.post<{interface_name}>" + "(`${this.baseUrl}" + f"/create`, {class_name.lower()});\n"
     service_code += "\t}\n\n"
 
     service_code += f"\tupdate{class_name}({class_name.lower()}: {interface_name}): Observable<{interface_name}> {{\n"
-    service_code += f"\t\treturn this.http.post<{interface_name}>" + "(`${this.baseUrl}/" + f"update`, {class_name.lower()});\n"
+    service_code += f"\t\treturn this.http.put<{interface_name}>" + "(`${this.baseUrl}/" + f"update`, {class_name.lower()});\n"
     service_code += "\t}\n\n"
 
     service_code += f"\tdelete{class_name}(id: number): Observable<any> {{\n"

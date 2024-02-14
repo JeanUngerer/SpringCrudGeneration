@@ -1,3 +1,6 @@
+import os
+
+
 def generate_equipment_service_class(equipment_entity_file):
     with open(equipment_entity_file, 'r') as file:
         entity_code = file.read()
@@ -25,9 +28,9 @@ def get_project_name(entity_code):
 
 
 def generate_class_code(class_name, project):
-    name_lower = class_name[0].lower() + class_name[1:-1]
+    name_lower = class_name[0].lower() + class_name[1:]
     package = f"package {project}.services;\n\n"
-    imports = f"import {project}.DTOs.{class_name}DTO;\n"
+    imports = f"import {project}.dtos.{class_name}DTO;\n"
     imports += f"import {project}.exception.ExceptionHandler;\n"
     imports += f"import {project}.helpers.CycleAvoidingMappingContext;\n"
     imports += f"import {project}.mappers.{class_name}Mapper;\n"
@@ -114,11 +117,18 @@ def generate_class_code(class_name, project):
     return class_code
 
 def write_to_file(class_code, class_name):
-    output_file = class_name + "Service.java"
+    path = "./services"
+    output_file = path + "/" + class_name + "Service.java"
+
+    # Check whether the specified path exists or not
+
+    if not os.path.exists(path):
+        # Create a new directory because it does not exist
+        os.makedirs(path)
     with open(output_file, 'w') as file:
         file.write(class_code)
     print(f"Java file '{output_file}' generated successfully!")
 
 # Provide the path to the EquipmentEntity class file
-equipment_entity_file = "tests/UserEntity.java"
+equipment_entity_file = "notInTests/UserEntity.java"
 #generate_equipment_service_class(equipment_entity_file)

@@ -17,6 +17,31 @@ import { AllBooksModule } from './test/modules/allbooks/allbooks.module';
 import { MessageModule } from './test/modules/message/message.module';
 import { RentalModule } from './test/modules/rental/rental.module';
 import { UserModule } from './test/modules/user/user.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { MessageModule } from './test/modules/message/message.module';
+import { RentalModule } from './test/modules/rental/rental.module';
+import { UserModule } from './test/modules/user/user.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +50,31 @@ import { UserModule } from './test/modules/user/user.module';
     HomeComponent,
   ],
   imports: [
+		UserModule,
+		RentalModule,
+		MessageModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
+		RentalModule,
 		UserModule,
 		RentalModule,
 		MessageModule,

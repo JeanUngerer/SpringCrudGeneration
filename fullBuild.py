@@ -70,7 +70,7 @@ for infos in listOfEntities:
 
     jMapper.generate_equipment_mapper_class(path)
     jDTO.generate_equipment_dto_class(path)
-    jModel.generate_equipment_class(path)
+    jModel.generate_class(path)
     jController.generate_equipment_controller_class(path)
     jRepository.generate_equipment_repository_class(path)
 
