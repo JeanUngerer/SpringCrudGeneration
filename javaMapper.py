@@ -2,14 +2,42 @@ import os
 
 import javaCommon as jCommon
 
+import re
+
+
+
+
+
+
+def extract_single_entity_attributes(class_string):
+    # Enhanced to capture any amount of whitespace between types and variable names
+    pattern = r'(@(ManyToOne|OneToOne)[\s\S]*?)(@JoinColumn[\s\S]*?)?(public|private|protected)?\s[A-Z]\w+'
+    matches = re.findall(pattern, class_string)
+    print('Matches : ', matches)
+    attribute_names = [match[1].split(' ')[-1] for match in matches]
+    return attribute_names
+
+
+def extract_collection_entity_attributes(class_string):
+    # Enhanced to capture any amount of whitespace between generic types and variable names
+    pattern = r'@(OneToMany|ManyToMany).*?\s+List<\w+>\s+\w*;\s*(\w+)\s*;'
+    matches = re.findall(pattern, class_string)
+    attribute_names = [match[1] for match in matches]
+    return attribute_names
+
+
+
+
 def generate_equipment_mapper_class(equipment_entity_file):
     with open(equipment_entity_file, 'r') as file:
         entity_code = file.read()
 
     class_name = jCommon.get_class_name(entity_code)
     project_name = jCommon.get_project_name(entity_code)
+    classSubEntityList = []
+    classSubEntitiesSerieList = []
 
-    mapper_class = generate_class_code(class_name, project_name)
+    mapper_class = generate_class_code(class_name, project_name, classSubEntityList, classSubEntitiesSerieList)
     write_to_file(mapper_class, class_name)
 
 def get_class_name(entity_code):
@@ -18,7 +46,7 @@ def get_class_name(entity_code):
     class_name = entity_code[class_start_index:class_end_index].strip()
     return class_name
 
-def generate_class_code(class_name, project):
+def generate_class_code(class_name, project, classSubEntityList = [], classSubEntitiesSerieList = []):
     package = f"package {project}.mappers;\n\n"
 
     imports = "import org.mapstruct.*;\n"
@@ -28,6 +56,7 @@ def generate_class_code(class_name, project):
     imports += f"import {project}.models.{class_name};\n\n"
     class_definition = f"@Mapper(unmappedSourcePolicy = ReportingPolicy.WARN, unmappedTargetPolicy = ReportingPolicy.WARN,\n" \
                        f"\ttypeConversionPolicy = ReportingPolicy.IGNORE, componentModel = \"spring\")\n" \
+                       f"@Named(\"{class_name}Mapper\")\n" \
                        f"public interface {class_name}Mapper {{\n\n" \
                        f"\t{class_name}DTO modelToDto({class_name} model);\n\n" \
                        f"\tList<{class_name}DTO> modelsToDtos(List<{class_name}> models);\n\n" \
@@ -40,7 +69,9 @@ def generate_class_code(class_name, project):
                        f"\t@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)\n" \
                        f"\tvoid updateFromModel({class_name} model, @MappingTarget {class_name}Entity entity, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);\n\n" \
                        f"\tvoid updateFromDto({class_name}DTO dto, @MappingTarget {class_name} model, @Context CycleAvoidingMappingContext cycleAvoidingMappingContext);\n" \
+                       f"\n" \
                        f"}}"
+
 
     class_code = package + imports + class_definition
     return class_code
@@ -59,5 +90,19 @@ def write_to_file(class_code, class_name):
     print(f"Java file '{output_file}' generated successfully!")
 
 # Provide the path to the EquipmentEntity class file
-equipment_entity_file = "EquipmentEntity.java"
+equipment_entity_file = 'tests/' + "EquipmentEntity.java"
 #generate_equipment_mapper_class(equipment_entity_file)
+
+
+# Read the content of the equipment_entity_file
+with open(equipment_entity_file, 'r') as file:
+    entity_code = file.read()
+    print(entity_code)
+
+# Test extract_single_entity_attributes
+result_single = extract_single_entity_attributes(entity_code)
+print("Result of extract_single_entity_attributes: ", result_single)
+
+# Test extract_collection_entity_attributes
+result_collection = extract_collection_entity_attributes(entity_code)
+print("Result of extract_collection_entity_attributes: ", result_collection)

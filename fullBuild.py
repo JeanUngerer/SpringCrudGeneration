@@ -55,24 +55,24 @@ for root, dirs, files in os.walk(entityDirectory):
         listOfEntities.append(fileInfo)
 
 for infos in listOfEntities:
-    aModel.generate_typescript_interface(infos.name, infos.primitiveAttributes, infos.nonPrimitiveAttributes)
-    aService.generate_angular_service(infos.name, infos.entity_code)
+    #aModel.generate_typescript_interface(infos.name, infos.primitiveAttributes, infos.nonPrimitiveAttributes)
+    #aService.generate_angular_service(infos.name, infos.entity_code)
 
     components = [infos.name + "ListComponent", infos.name + "DetailComponent", infos.name + "CreateComponent"]
-    aModule.create_angular_module(infos.name, components)
+    #aModule.create_angular_module(infos.name, components)
 
-    aRoutingModule.create_routing_module(infos.name, components)
-    aAddToModules.add_component_to_app_routing_module(infos.name)
-    aAddToModules.add_module_to_app_module(infos.name)
+    #aRoutingModule.create_routing_module(infos.name, components)
+    #aAddToModules.add_component_to_app_routing_module(infos.name)
+    #aAddToModules.add_module_to_app_module(infos.name)
 
     path = 'tests/' + infos.name + 'Entity.java'
-    jService.generate_equipment_service_class(path)
+    #jService.generate_equipment_service_class(path)
 
     jMapper.generate_equipment_mapper_class(path)
     jDTO.generate_equipment_dto_class(path)
-    jModel.generate_class(path)
-    jController.generate_equipment_controller_class(path)
-    jRepository.generate_equipment_repository_class(path)
+    #jModel.generate_class(path)
+    #jController.generate_equipment_controller_class(path)
+    #jRepository.generate_equipment_repository_class(path)
 
 
 

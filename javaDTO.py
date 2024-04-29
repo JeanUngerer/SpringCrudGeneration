@@ -44,7 +44,7 @@ def generate_class_code(class_name, fields, project):
     class_definition += f"@NoArgsConstructor\n"
     class_definition += f"@AllArgsConstructor\n"
     class_definition += f"public class {class_name}DTO {{\n\n"
-    fields_definition = "\n".join([field for field in fields if '@' not in field]).replace('Entity', '') + "\n\n"
+    fields_definition = "\n".join([field for field in fields if '@' not in field]).replace('Entity;', ';').replace('Entity', 'DTO') + "\n\n"
     class_code = package + imports + class_definition + fields_definition + "}"
     return class_code
 
@@ -62,5 +62,5 @@ def write_to_file(class_code, class_name):
     print(f"Java file '{output_file}' generated successfully!")
 
 # Provide the path to the EquipmentEntity class file
-equipment_entity_file = "notInTests/EquipmentEntity.java"
+equipment_entity_file = "tests/EquipmentEntity.java"
 #generate_equipment_dto_class(equipment_entity_file)
